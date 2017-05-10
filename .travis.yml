@@ -1,5 +1,5 @@
 before_script:
-- cd src/Projeto
+- cd src/TrabalhoTopicos
 
 language: java
 jdk:
