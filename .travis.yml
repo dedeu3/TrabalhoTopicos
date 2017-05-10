@@ -1,0 +1,8 @@
+before_script:
+- cd src/Projeto
+
+language: java
+jdk:
+- oraclejdk8
+
+script: mvn clean verify -DskipTestes=false -DskipITs=false -DskipSTs=false
