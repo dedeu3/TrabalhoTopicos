@@ -6,14 +6,18 @@
 package br.projetotopicos;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,59 +30,84 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.usuarioPK.id = :id")
-    , @NamedQuery(name = "Usuario.findByPin", query = "SELECT u FROM Usuario u WHERE u.usuarioPK.pin = :pin")
+    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
     , @NamedQuery(name = "Usuario.findByNomecompleto", query = "SELECT u FROM Usuario u WHERE u.nomecompleto = :nomecompleto")
     , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
+    , @NamedQuery(name = "Usuario.findByPin", query = "SELECT u FROM Usuario u WHERE u.pin = :pin")
     , @NamedQuery(name = "Usuario.findByDatanascimento", query = "SELECT u FROM Usuario u WHERE u.datanascimento = :datanascimento")
     , @NamedQuery(name = "Usuario.findByAtrib1", query = "SELECT u FROM Usuario u WHERE u.atrib1 = :atrib1")
     , @NamedQuery(name = "Usuario.findByAtrib2", query = "SELECT u FROM Usuario u WHERE u.atrib2 = :atrib2")
     , @NamedQuery(name = "Usuario.findByAtrib3", query = "SELECT u FROM Usuario u WHERE u.atrib3 = :atrib3")})
 public class Usuario implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Senha senha;
-
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected UsuarioPK usuarioPK;
-    @Size(max = 50)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nomecompleto")
     private String nomecompleto;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="E-mail inválido")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 30)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "email")
     private String email;
-    @Size(max = 10)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "pin")
+    private short pin;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "datanascimento")
     private String datanascimento;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "atrib1")
     private String atrib1;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "atrib2")
     private String atrib2;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "atrib3")
     private String atrib3;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Senha senha;
 
     public Usuario() {
     }
 
-    public Usuario(UsuarioPK usuarioPK) {
-        this.usuarioPK = usuarioPK;
+    public Usuario(Integer id) {
+        this.id = id;
     }
 
-    public Usuario(int id, short pin) {
-        this.usuarioPK = new UsuarioPK(id, pin);
+    public Usuario(Integer id, String nomecompleto, String email, short pin, String datanascimento, String atrib1, String atrib2, String atrib3) {
+        this.id = id;
+        this.nomecompleto = nomecompleto;
+        this.email = email;
+        this.pin = pin;
+        this.datanascimento = datanascimento;
+        this.atrib1 = atrib1;
+        this.atrib2 = atrib2;
+        this.atrib3 = atrib3;
     }
 
-    public UsuarioPK getUsuarioPK() {
-        return usuarioPK;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioPK(UsuarioPK usuarioPK) {
-        this.usuarioPK = usuarioPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNomecompleto() {
@@ -95,6 +124,14 @@ public class Usuario implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public short getPin() {
+        return pin;
+    }
+
+    public void setPin(short pin) {
+        this.pin = pin;
     }
 
     public String getDatanascimento() {
@@ -129,10 +166,18 @@ public class Usuario implements Serializable {
         this.atrib3 = atrib3;
     }
 
+    public Senha getSenha() {
+        return senha;
+    }
+
+    public void setSenha(Senha senha) {
+        this.senha = senha;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (usuarioPK != null ? usuarioPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -143,7 +188,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.usuarioPK == null && other.usuarioPK != null) || (this.usuarioPK != null && !this.usuarioPK.equals(other.usuarioPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -151,15 +196,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "br.projetotopicos.Usuario[ usuarioPK=" + usuarioPK + " ]";
-    }
-
-    public Senha getSenha() {
-        return senha;
-    }
-
-    public void setSenha(Senha senha) {
-        this.senha = senha;
+        return "br.projetotopicos.Usuario[ id=" + id + " ]";
     }
     
 }

@@ -6,15 +6,18 @@
 package br.projetotopicos;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,44 +30,50 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Senha.findAll", query = "SELECT s FROM Senha s")
-    , @NamedQuery(name = "Senha.findById", query = "SELECT s FROM Senha s WHERE s.senhaPK.id = :id")
-    , @NamedQuery(name = "Senha.findByPin", query = "SELECT s FROM Senha s WHERE s.senhaPK.pin = :pin")
+    , @NamedQuery(name = "Senha.findById", query = "SELECT s FROM Senha s WHERE s.id = :id")
     , @NamedQuery(name = "Senha.findByDescricao", query = "SELECT s FROM Senha s WHERE s.descricao = :descricao")
     , @NamedQuery(name = "Senha.findBySenha", query = "SELECT s FROM Senha s WHERE s.senha = :senha")})
 public class Senha implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SenhaPK senhaPK;
-    @Size(max = 20)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "descricao")
     private String descricao;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "senha")
     private String senha;
-    @JoinColumns({
-        @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-        , @JoinColumn(name = "pin", referencedColumnName = "pin", insertable = false, updatable = false)})
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
 
     public Senha() {
     }
 
-    public Senha(SenhaPK senhaPK) {
-        this.senhaPK = senhaPK;
+    public Senha(Integer id) {
+        this.id = id;
     }
 
-    public Senha(int id, short pin) {
-        this.senhaPK = new SenhaPK(id, pin);
+    public Senha(Integer id, String descricao, String senha) {
+        this.id = id;
+        this.descricao = descricao;
+        this.senha = senha;
     }
 
-    public SenhaPK getSenhaPK() {
-        return senhaPK;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSenhaPK(SenhaPK senhaPK) {
-        this.senhaPK = senhaPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -94,7 +103,7 @@ public class Senha implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (senhaPK != null ? senhaPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -105,7 +114,7 @@ public class Senha implements Serializable {
             return false;
         }
         Senha other = (Senha) object;
-        if ((this.senhaPK == null && other.senhaPK != null) || (this.senhaPK != null && !this.senhaPK.equals(other.senhaPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -113,7 +122,7 @@ public class Senha implements Serializable {
 
     @Override
     public String toString() {
-        return "br.projetotopicos.Senha[ senhaPK=" + senhaPK + " ]";
+        return "br.projetotopicos.Senha[ id=" + id + " ]";
     }
     
 }
