@@ -1,5 +1,4 @@
 before_script:
-- cd src/main
 
 language: java
 jdk:
