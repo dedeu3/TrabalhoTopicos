@@ -10,7 +10,7 @@ services:
 
 before_script:
   - psql -c 'create database Trabalho;' -U postgres
-  - psql -U postgres -d Trabalho -f db/Projeto Tópicos - Script SQL BD.sql
+  - psql -U postgres -d Trabalho -f db/"Projeto Tópicos - Script SQL BD".sql
 
 language: java
 jdk:
