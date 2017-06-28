@@ -1,4 +1,15 @@
+# before_script:
+
+# language: java
+# jdk:
+# - oraclejdk8
+
+# script: mvn clean verify -DskipTests=false -DskipITs=false -DskipSTs=false
+services:
+  - postgresql
+
 before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 
 language: java
 jdk:
