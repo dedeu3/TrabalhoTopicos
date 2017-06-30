@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <link href='http://fonts.googleapis.com/css?family=Robvoto' rel='stylesheet' type='text/css'/>
+
+    <h:head>        <title>Gerador de Senhas - Login</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </h:head>
+
+    <h:body styleClass="bg">
+        <h:outputStylesheet library="css" name="style.css"/>   
+        <div class="holder">
+            <div class="iron_holder">
+            </div>
+            <div class="front_lock_reg">
+                <div style="text-align:center"> 
+
+
+                    <h:form rendered="#{jsfUsuario.entrar}">
+                        <b:inputText label="E-mail" placeholder="seu email" value="#{jsfUsuario.email}">
+                            <f:facet name="prepend">
+                                <b:icon name="envelope" />
+                            </f:facet>
+                        </b:inputText>
+                        <b:inputSecret label="Senha" placeholder="sua senha" value="#{jsfUsuario.pin}">
+                            <f:facet name="prepend">
+                                <b:iconAwesome name="key" />
+                            </f:facet>
+                        </b:inputSecret>
+                        <b:commandButton icon-size="2x" iconAwesome="fa-sign-in"
+                                         value="ENTRAR" action="#{jsfUsuario.login()}"
+                                         look="default" title="icon-size='3x'"/>
+                    </h:form>
+
+                   
+                    <h:form rendered="#{jsfUsuario.novo}">
+                        <b:inputText placeholder="informe seu nome completo" value="#{jsfUsuario.nomecompleto}">
+            
+                        </b:inputText>
+                        <b:inputText placeholder="informe seu email" value="#{jsfUsuario.email}">
+                       </b:inputText>
+                        <b:inputSecret value="#{jsfUsuario.pin}">
+                        </b:inputSecret>
+                        <b:inputText placeholder="data de nascimento" value="#{jsfUsuario.datanascimento}">
+                         </b:inputText>
+                        <b:inputText placeholder="atributo 1" value="#{jsfUsuario.atrib1}">
+                         </b:inputText>
+                        <b:inputText placeholder="atributo 2" value="#{jsfUsuario.atrib2}">
+                        </b:inputText>
+                        <b:inputText placeholder="atributo 3" value="#{jsfUsuario.atrib3}">
+                        </b:inputText>
+                        <b:commandButton icon-size="2x" iconAwesome="fa-sign-in" value="Registrar" look="default" title="icon-size='3x'" action="#{jsfUsuario.salvar()}" />                                  
+                    </h:form>
+
+
+                    <h:form>
+                        <b:commandButton class="transparent" value="Entrar" action="#{jsfUsuario.setEntrar(true)}"/>
+                        <b:commandButton class="transparent" value="Registrar-se" action="#{jsfUsuario.setNovo(true)}"/>
+                    </h:form>
+                </div>        
+            </div>
+            <div class="key_img">
+
+
+            </div>
+        </div>
+    </h:body>
+</html>

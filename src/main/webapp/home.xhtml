@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>        
+        <title>Gerador de Senhas - Login</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </h:head>
+
+
+    <h:body class="bg no-pad">
+        <h:outputStylesheet library="css" name="style.css"/>
+        <div class="navbar">
+            <span class="good-font navbar-text">Seja Bem Vindo(a), #{jsfUsuario.nomecompleto}</span>
+            <span class="navbar-text-logout">&#128682;</span>
+        </div>
+        <div class="new-pw element-animation">
+            <!--<p class="good-font center font-test"> CRIE JÁ SUA NOVA SENHA!<br> TÁ ESPERANDO O QUÊ?</p>-->
+            <div class="holder-test-l holder-test"><img class="inset-lock" src="lockinset.png" /></div>
+            <div class="holder-test holder-test-text">
+                <h1 class="center inset-text">Está esperando o quê?</h1><br></br><br></br><br></br><br></br>
+                <h2 class="center inset-text h2-fix">Armazene já uma nova senha!</h2>
+            </div>
+        </div>
+        
+        <div class="your-pws-holder">
+            <h:form>
+                <div class="your-pws">
+                    <h1 class="good-font head-pws">Senha 1</h1>
+                    <span class="good-font pws-recolor">Insira descrição da senha: </span>
+                    <h:inputText value="#{jsfSenha.descricao}" class="input-pws"/>
+                    <b:commandButton value="Gerar" action='#{jsfSenha.salvar(jsfUsuario.id)}'/>
+                    <p class="good-font pws-recolor" value='#{pwd.senha}'></p>
+                </div>
+                <div class="your-pws">
+                    <h1 class="good-font head-pws">Senha 2</h1>
+                    <span class="good-font pws-recolor">Insira descrição da senha: </span>
+                    <h:inputText value="#{jsfSenha.descricao}" class="input-pws"/>
+                    <b:commandButton value="Gerar" action='#{jsfSenha.salvar(jsfUsuario.id)}'/>
+                    <p class="good-font pws-recolor" value='#{pwd.senha}'></p>
+                </div><div class="your-pws">
+                    <h1 class="good-font head-pws">Senha 3</h1>
+                    <span class="good-font pws-recolor">Insira descrição da senha: </span>
+                    <h:inputText value="#{jsfSenha.descricao}" class="input-pws"/>
+                    <b:commandButton value="Gerar" action='#{jsfSenha.salvar(jsfUsuario.id)}'/>
+                    <p class="good-font pws-recolor" value='#{pwd.senha}'></p>
+                </div>
+            </h:form>
+            <br></br><br></br><br></br>
+            <b:container>
+                <b:jumbotron>
+                    <h:form>
+                        <h2>Lista de Senhas Cadastradas</h2>
+                        <b:dataTable value='#{jsfSenha.all}' var='pwd'>
+                            <b:dataTableColumn label="Descrição">
+                                <h:outputText value='#{pwd.descricao}'>
+                                </h:outputText>
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Senha">
+                                <h:outputText value='#{pwd.senha}'>
+                                </h:outputText>
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Ações">
+                                <b:commandButton value="Excluir" action="#{jsfSenha.remove(pwd)}" />
+                                <b:commandButton value="Alterar" action="#{jsfSenha.update(pwd)}" />
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>
+                </b:jumbotron>
+            </b:container>
+        </div>
+    </h:body>
+
+</html>
